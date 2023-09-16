@@ -209,6 +209,13 @@
 \newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{text} #1}}
 
+% For elements of refentry
+\newcommand*{\refnamestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
+\newcommand*{\refpositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{graytext} #1}}
+\newcommand*{\refdeptstyle}[1]{{\fontsize{8.5pt}{1em}\bodyfontlight\slshape\color{graytext} #1}}
+\newcommand*{\refcompanystyle}[1]{{\fontsize{9pt}{1em}\bodyfont\slshape\color{awesome} #1}}
+\newcommand*{\refemailstyle}[1]{{\fontsize{8.5pt}{1em}\bodyfontlight\upshape\color{darktext} \href{mailto:#1}{#1}}}
+% \newcommand*{\refemailstyle}[1]{{\fontsize{8.5pt}{1em}\bodyfontlight\upshape\color{awesome} \href{mailto:#1}{\underline{#1}}}}
 % For elements of the cover letter
 \newcommand*{\lettersectionstyle}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries\color{text}\@sectioncolor #1}}
 \newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{graytext} #1}}
@@ -617,17 +624,27 @@
 % Define a section for CV
 % Usage: \cvsection{<section-title>}
 \newcommand{\cvsection}[1]{%
+  \filbreak
   \vspace{\acvSectionTopSkip}
   \sectionstyle{#1}
   \phantomsection
   \color{sectiondivider}\vhrulefill{0.9pt}
 }
 
+% % Define a section for CV
+% % Usage: \cvsection{<section-title>}
+% \newcommand{\cvsection}[1]{%
+%   \vspace{\acvSectionTopSkip}
+%   \sectionstyle{#1}
+%   \phantomsection
+%   \color{sectiondivider}\vhrulefill{0.9pt}
+% }
+
 % Define a subsection for CV
 % Usage: \cvsubsection{<subsection-title>}
 \newcommand{\cvsubsection}[1]{%
   \vspace{\acvSectionContentTopSkip}
-  \vspace{-3mm}
+  \vspace{-2mm}
   \subsectionstyle{#1}
   \phantomsection
 }
@@ -639,7 +656,7 @@
   \paragraphstyle
 }{%
   \par
-  \vspace{2mm}
+  % \vspace{2mm}
 }
 
 % Define an environment for cventry
@@ -649,6 +666,7 @@
 }{%
   \end{center}
 }
+
 % Define an entry of cv information
 % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
 \newcommand*{\cventry}[5]{%
@@ -660,11 +678,28 @@
       {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
       {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
       \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-    \ifstrempty{#5}
-      {}
-      {\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}} \\}
-  \end{tabular*}%
+    \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
+    % \multicolumn{2}{L{\textwidth}}{\eduskilltypestyle{#1} & \eduskillsetstyle{#2} \\}
+  \end{tabular*}
+  % \vspace{\acvSectionContentSkip}
 }
+
+% % Define an entry of cv information
+% % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
+% \newcommand*{\cventry}[5]{%
+%   \vspace{-2.0mm}
+%   \setlength\tabcolsep{0pt}
+%   \setlength{\extrarowheight}{0pt}
+%   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{3.5cm}}
+%     \ifempty{#2#3}
+%       {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
+%       {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
+%       \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
+%     \ifstrempty{#5}
+%       {}
+%       {\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}} \\}
+%   \end{tabular*}%
+% }
 
 % Define an environment for cvsubentry
 \newenvironment{cvsubentries}{%
@@ -728,17 +763,57 @@
 
 % Define an environment for cvitems(for cventry)
 \newenvironment{cvitems}{%
-  \vspace{-4.0mm}
+  \vspace{-2.0mm}
   \begin{justify}
-  \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
-    \setlength{\parskip}{0pt}
+  \begin{itemize}[leftmargin=5ex, rightmargin=5ex, nosep, noitemsep]
+    \setlength{\parskip}{1pt}
     \renewcommand{\labelitemi}{\bullet}
 }{%
   \end{itemize}
   \end{justify}
-  \vspace{-4.0mm}
+  % \vspace{2.0mm}
 }
 
+% % Define an environment for cvitems(for cventry)
+% \newenvironment{cvitems}{%
+%   \vspace{-4.0mm}
+%   \begin{justify}
+%   \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
+%     \setlength{\parskip}{0pt}
+%     \renewcommand{\labelitemi}{\bullet}
+% }{%
+%   \end{itemize}
+%   \end{justify}
+%   \vspace{-4.0mm}
+% }
+
+% Define an environment for references
+\newenvironment{refentries}{%
+  \vspace{\acvSectionContentTopSkip}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+% Define an entry of cv reference
+% Usage: \refentry{<name>}{<position>}{<company>}{<department>}{<email>}
+\newcommand*{\refentry}[5]{%
+  \vspace{-1.0mm}
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+    \ifempty{#2#4}
+      % {\refnamestyle{#1} \\ \hspace{\refIndent}\refemailstyle{#4} \\}
+      % {\refnamestyle{#1}\\
+      % \hspace{\refIndent}\refpositionstyle{#2 at \emph{#3}}\\
+      % \hspace{\refIndent}\refemailstyle{#4} \\}
+      {\refnamestyle{#1} \\ \refemailstyle{#4} \\}
+      {\refnamestyle{#1} & \refcompanystyle{#3} \\
+      \refpositionstyle{#2} & \refdeptstyle{#4}\\
+      \refemailstyle{#5} \\}
+  \end{tabular*}
+  \vspace{3.5mm}
+}
 
 %-------------------------------------------------------------------------------
 %                Commands for elements of Cover Letter
@@ -791,3 +866,151 @@
       \letterenclosurestyle{\@letterenclname: \@letterenclosure} \\
     }
 }
+
+ %-------------------------------------------------------------------------------
+ %                Bibliography
+ %-------------------------------------------------------------------------------
+ %\RequirePackage[style=verbose, maxnames=99, sorting=ydnt]{biblatex}
+ \RequirePackage[ % BibLaTeX
+ 	sorting=ydnt, % Sorts entries by year (descending order), name, title
+ 	style=verbose,
+ 	doi=false,
+ 	isbn=true,
+ 	url=false,
+ 	eprint=false,
+ 	backref = false, % include back references in bibliography
+ 	maxcitenames=3, % affects only the citations in the document body
+ 	maxbibnames=99, % affects only the bibliography, pass 99 to print all
+ 	hyperref=true,
+ 	block=none,
+ 	backend=biber % {Options: bibtex, biber}
+ 	]{biblatex}
+
+ % Avoid splitting entries across page break (only for 3 or fewer lines)
+ % Tip: http://tex.stackexchange.com/a/51261
+ \AtBeginEnvironment{thebibliography}{%
+    \clubpenalty10000
+    \@clubpenalty \clubpenalty
+    \widowpenalty10000
+    \interlinepenalty5000}
+
+ % Customized format, based on Fancy CV template created by Adrien Friggeri
+ \DeclareFieldFormat[article]{title}{#1\par}
+ \DeclareFieldFormat[inproceedings]{title}{#1\par}
+ \DeclareFieldFormat[misc]{title}{#1\par}
+ \DeclareFieldFormat[report]{title}{#1\par}
+ \DeclareFieldFormat[incollection]{title}{#1\par}
+
+ \DeclareBibliographyDriver{article}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \printfield{title}%
+   \newblock%
+   \printnames{author}%
+   \par%
+   \newblock%
+   {%
+     \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+     \usebibmacro{journal+issuetitle}%
+     \setunit{\space}%
+     \printfield{pages}%
+     \newunit%
+     \printlist{publisher}%
+     \setunit*{\addcomma\space}%
+     \printfield{year}%
+     \newunit%
+   }
+   \par\vspace{0.3\baselineskip}
+ }
+
+ \DeclareBibliographyDriver{inproceedings}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \printfield{title}%
+   \newblock%
+   \printnames{author}%
+   \par%
+   \newblock%
+   {%
+     \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+     \printfield{booktitle}%
+     \setunit{\addcomma\space}%
+     \printfield{year}%
+     \setunit{\addcomma\space}%
+     \printlist{location}%
+     \newunit%
+   }
+   \par\vspace{0.3\baselineskip}
+ }
+
+ \DeclareBibliographyDriver{incollection}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \printfield{title}%
+   \newblock%
+   \printnames{author}%
+   \par%
+   \newblock%
+   {%
+     \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+     \printfield{booktitle}%
+     \setunit{\addcomma\space}%
+     \printfield{year}%
+     \setunit{\addcomma\space}%
+     \printlist{location}%
+     \newunit%
+   }
+   \par\vspace{0.3\baselineskip}
+ }
+
+ \DeclareBibliographyDriver{misc}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \printfield{title}%
+   \newblock%
+   \printnames{author}%
+   \par%
+   \newblock%
+   {%
+     \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+     \printfield{booktitle}%
+     \setunit*{\addcomma\space}%
+     \printfield{note}%
+     \setunit*{\addcomma\space}%
+     \printfield{year}%
+     \setunit{\addcomma\space}%
+     \printlist{location}%
+     \newunit%
+   }
+   \par\vspace{0.3\baselineskip}
+ }
+
+ \DeclareBibliographyDriver{report}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \printfield{title}%
+   \newblock%
+   \printnames{author}%
+   \par%
+   \newblock%
+   {%
+     \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+     \printfield{type}%
+     \setunit{\space}%
+     \printfield{number}%
+     \setunit{\addcomma\space}%
+     \printfield{year}%
+     \newunit%
+   }
+   \par\vspace{0.3\baselineskip}
+ }
+
+ % New syntax for flexible backend (BibLaTeX > v3.3)
+ \DeclareNameFormat{author}{%
+   \fontsize{9pt}{1em}\bodyfont%
+   \renewcommand*{\multinamedelim}{\addcomma\addspace}%
+   \nameparts{#1}%
+   \ifthenelse{\value{listcount}=1}
+     {\ifblank{\namepartgiven}{}{\namepartgiven\space}%
+     \namepartfamily}%
+     {\ifblank{\namepartgiven}{}{\namepartgiven\space}%
+     \namepartfamily}%
+   \ifthenelse{\value{listcount}<\value{liststop}}
+   {\addcomma\space}
+   {}
+ }
